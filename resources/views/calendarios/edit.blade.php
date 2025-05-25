@@ -2,6 +2,15 @@
 @section('title', 'Editar Calendario')
 @section('content')
 <h1>Editar Calendario</h1>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <form action="{{ route('calendarios.update', $calendario) }}" method="POST" class="col-md-6">
     @csrf
     @method('PUT')

@@ -20,13 +20,16 @@ class CalendarioController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $data = $request->all();
+        $data['festivos_no_dominicales'] = array_filter(array_map('trim', explode(',', $data['festivos_no_dominicales'] ?? '')));
+        $validated = validator($data, [
             'fecha_inicio' => 'required|date',
             'dias_laborales' => 'nullable|integer',
             'festivos_no_dominicales' => 'required|array',
-        ]);
-        Calendario::create($data);
-        return redirect()->route('calendarios.index');
+        ])->validate();
+
+        Calendario::create($validated);
+        return redirect()->route('calendarios.index')->with('success', 'Calendario creado correctamente');
     }
 
     public function show(Calendario $calendario)
@@ -41,13 +44,16 @@ class CalendarioController extends Controller
 
     public function update(Request $request, Calendario $calendario)
     {
-        $data = $request->validate([
+        $data = $request->all();
+        $data['festivos_no_dominicales'] = array_filter(array_map('trim', explode(',', $data['festivos_no_dominicales'] ?? '')));
+        $validated = validator($data, [
             'fecha_inicio' => 'required|date',
             'dias_laborales' => 'nullable|integer',
             'festivos_no_dominicales' => 'required|array',
-        ]);
-        $calendario->update($data);
-        return redirect()->route('calendarios.index');
+        ])->validate();
+
+        $calendario->update($validated);
+        return redirect()->route('calendarios.index')->with('success', 'Calendario actualizado correctamente');
     }
 
     public function destroy(Calendario $calendario)
