@@ -27,7 +27,7 @@ class TurnoController extends Controller
         $data = $request->validate([
             'empleado_id' => 'required|exists:empleados,id',
             'fecha' => 'required|date',
-            'tipo_turno' => 'required|in:Diu,Noc,Diu F,Noc F',
+            'codigo_turno_id' => 'required|exists:codigo_turnos,id',
         ]);
         Turno::create($data);
         return redirect()->route('turnos.index');
@@ -50,7 +50,7 @@ class TurnoController extends Controller
         $data = $request->validate([
             'empleado_id' => 'required|exists:empleados,id',
             'fecha' => 'required|date',
-            'tipo_turno' => 'required|in:Diu,Noc,Diu F,Noc F',
+            'codigo_turno_id' => 'required|exists:codigo_turnos,id',
         ]);
         $turno->update($data);
         return redirect()->route('turnos.index');
