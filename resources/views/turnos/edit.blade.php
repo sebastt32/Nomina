@@ -19,13 +19,12 @@
         <input type="date" name="fecha" id="fecha" class="form-control" required value="{{ old('fecha', $turno->fecha->format('Y-m-d')) }}">
     </div>
     <div class="mb-3">
-        <label for="tipo_turno" class="form-label">Tipo de Turno</label>
-        <select name="tipo_turno" id="tipo_turno" class="form-select" required>
+        <label for="codigo_turno_id" class="form-label">Código de Turno</label>
+        <select name="codigo_turno_id" id="codigo_turno_id" class="form-select" required>
             <option value="">Seleccione...</option>
-            <option value="Diu" {{ old('tipo_turno', $turno->tipo_turno) == 'Diu' ? 'selected' : '' }}>Diurno</option>
-            <option value="Noc" {{ old('tipo_turno', $turno->tipo_turno) == 'Noc' ? 'selected' : '' }}>Nocturno</option>
-            <option value="Diu F" {{ old('tipo_turno', $turno->tipo_turno) == 'Diu F' ? 'selected' : '' }}>Diurno Festivo</option>
-            <option value="Noc F" {{ old('tipo_turno', $turno->tipo_turno) == 'Noc F' ? 'selected' : '' }}>Nocturno Festivo</option>
+            @foreach($codigos as $codigo)
+                <option value="{{ $codigo->id }}" {{ old('codigo_turno_id', $turno->codigo_turno_id) == $codigo->id ? 'selected' : '' }}>{{ $codigo->codigo }} - {{ $codigo->nombre }} ({{ $codigo->horas }}h)</option>
+            @endforeach
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Actualizar</button>

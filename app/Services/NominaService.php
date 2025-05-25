@@ -17,18 +17,18 @@ class NominaService
             $turnos = Turno::where('empleado_id', $empleado->id)
                 ->whereMonth('fecha', $fecha->month)
                 ->whereYear('fecha', $fecha->year)
+                ->with('codigoTurno')
                 ->get();
 
-            $resumen = [
-                'Diu' => 0,
-                'Noc' => 0,
-                'Diu F' => 0,
-                'Noc F' => 0,
-            ];
+            $resumen = [];
+            $horas_total = 0;
             foreach ($turnos as $turno) {
-                $resumen[$turno->tipo_turno] = ($resumen[$turno->tipo_turno] ?? 0) + 12; // Asume 12h por turno
+                $codigo = $turno->codigoTurno;
+                if (!$codigo) continue;
+                $key = $codigo->codigo;
+                $resumen[$key] = ($resumen[$key] ?? 0) + $codigo->horas;
+                $horas_total += $codigo->horas;
             }
-            $horas_total = array_sum($resumen);
             $valor_total = $this->calcularValorTotal($empleado, $resumen);
             Nomina::updateOrCreate(
                 [
@@ -49,10 +49,10 @@ class NominaService
         // Lógica de ejemplo: puedes ajustar los recargos según tu necesidad
         $base = $empleado->salario_base ?? 0;
         $valor = 0;
-        $valor += ($resumen['Diu'] ?? 0) * ($base / 240); // 240h estándar
-        $valor += ($resumen['Noc'] ?? 0) * ($base / 240) * 1.35; // 35% recargo nocturno
-        $valor += ($resumen['Diu F'] ?? 0) * ($base / 240) * 1.75; // 75% recargo festivo diurno
-        $valor += ($resumen['Noc F'] ?? 0) * ($base / 240) * 2.1; // 110% recargo festivo nocturno
+        foreach ($resumen as $codigo => $horas) {
+            // Aquí puedes personalizar los recargos según el código
+            $valor += $horas * ($base / 240); // Ejemplo: todas las horas al mismo valor base
+        }
         return round($valor, 2);
     }
 } 

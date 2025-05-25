@@ -20,6 +20,7 @@
                 <li class="nav-item"><a class="nav-link" href="/calendarios">Calendarios</a></li>
                 <li class="nav-item"><a class="nav-link" href="/festivos">Festivos</a></li>
                 <li class="nav-item"><a class="nav-link" href="/nominas">Nómina</a></li>
+                <li class="nav-item"><a class="nav-link" href="/codigo-turnos">Códigos de Turno</a></li>
             </ul>
         </div>
     </div>

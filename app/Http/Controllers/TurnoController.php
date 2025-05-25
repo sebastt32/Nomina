@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Turno;
 use App\Models\Empleado;
+use App\Models\CodigoTurno;
 use Illuminate\Http\Request;
 
 class TurnoController extends Controller
@@ -17,7 +18,8 @@ class TurnoController extends Controller
     public function create()
     {
         $empleados = Empleado::all();
-        return view('turnos.create', compact('empleados'));
+        $codigos = CodigoTurno::all();
+        return view('turnos.create', compact('empleados', 'codigos'));
     }
 
     public function store(Request $request)
@@ -39,7 +41,8 @@ class TurnoController extends Controller
     public function edit(Turno $turno)
     {
         $empleados = Empleado::all();
-        return view('turnos.edit', compact('turno', 'empleados'));
+        $codigos = CodigoTurno::all();
+        return view('turnos.edit', compact('turno', 'empleados', 'codigos'));
     }
 
     public function update(Request $request, Turno $turno)

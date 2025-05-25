@@ -11,7 +11,7 @@
             <th>ID</th>
             <th>Empleado</th>
             <th>Fecha</th>
-            <th>Tipo de Turno</th>
+            <th>Código de Turno</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -21,7 +21,7 @@
             <td>{{ $turno->id }}</td>
             <td>{{ $turno->empleado->nombre }}</td>
             <td>{{ $turno->fecha->format('Y-m-d') }}</td>
-            <td>{{ $turno->tipo_turno }}</td>
+            <td>{{ $turno->codigoTurno->codigo }} - {{ $turno->codigoTurno->nombre }}</td>
             <td>
                 <a href="{{ route('turnos.show', $turno) }}" class="btn btn-info btn-sm">Ver</a>
                 <a href="{{ route('turnos.edit', $turno) }}" class="btn btn-warning btn-sm">Editar</a>

@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('turnos', function (Blueprint $table) {
+        Schema::create('codigo_turnos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('empleado_id')->constrained('empleados')->onDelete('cascade');
-            $table->date('fecha');
-            $table->foreignId('codigo_turno_id')->constrained('codigo_turnos')->onDelete('cascade');
+            $table->string('nombre');
+            $table->string('codigo')->unique();
+            $table->decimal('horas', 5, 2)->default(0);
             $table->timestamps();
         });
-        
     }
 
     /**
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('turnos');
+        Schema::dropIfExists('codigo_turnos');
     }
 };

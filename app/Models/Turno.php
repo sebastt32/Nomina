@@ -10,7 +10,7 @@ class Turno extends Model
     protected $fillable = [
         'empleado_id',
         'fecha',
-        'tipo_turno'
+        'codigo_turno_id',
     ];
 
     protected $casts = [
@@ -20,5 +20,10 @@ class Turno extends Model
     public function empleado(): BelongsTo
     {
         return $this->belongsTo(Empleado::class);
+    }
+
+    public function codigoTurno(): BelongsTo
+    {
+        return $this->belongsTo(CodigoTurno::class);
     }
 } 
