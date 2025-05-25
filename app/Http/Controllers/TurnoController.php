@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Turno;
+use App\Models\Empleado;
+use Illuminate\Http\Request;
+
+class TurnoController extends Controller
+{
+    public function index()
+    {
+        $turnos = Turno::with('empleado')->get();
+        return view('turnos.index', compact('turnos'));
+    }
+
+    public function create()
+    {
+        $empleados = Empleado::all();
+        return view('turnos.create', compact('empleados'));
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'empleado_id' => 'required|exists:empleados,id',
+            'fecha' => 'required|date',
+            'tipo_turno' => 'required|in:Diu,Noc,Diu F,Noc F',
+        ]);
+        Turno::create($data);
+        return redirect()->route('turnos.index');
+    }
+
+    public function show(Turno $turno)
+    {
+        return view('turnos.show', compact('turno'));
+    }
+
+    public function edit(Turno $turno)
+    {
+        $empleados = Empleado::all();
+        return view('turnos.edit', compact('turno', 'empleados'));
+    }
+
+    public function update(Request $request, Turno $turno)
+    {
+        $data = $request->validate([
+            'empleado_id' => 'required|exists:empleados,id',
+            'fecha' => 'required|date',
+            'tipo_turno' => 'required|in:Diu,Noc,Diu F,Noc F',
+        ]);
+        $turno->update($data);
+        return redirect()->route('turnos.index');
+    }
+
+    public function destroy(Turno $turno)
+    {
+        $turno->delete();
+        return redirect()->route('turnos.index');
+    }
+} 

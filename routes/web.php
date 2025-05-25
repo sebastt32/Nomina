@@ -1,7 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\TurnoController;
+use App\Http\Controllers\CalendarioController;
+use App\Http\Controllers\FestivoController;
+use App\Http\Controllers\NominaController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('empleados.index');
 });
+
+Route::resource('empleados', EmpleadoController::class);
+Route::resource('turnos', TurnoController::class);
+Route::resource('calendarios', CalendarioController::class);
+Route::resource('festivos', FestivoController::class);
+Route::resource('nominas', NominaController::class)->only(['index', 'show']);
+
+Route::post('nominas/generar', [NominaController::class, 'generar'])->name('nominas.generar');
